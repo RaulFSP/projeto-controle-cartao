@@ -2,14 +2,27 @@
 <html lang="pt-br">
 <th:block th:replace="~{fragments/head :: head(title='home')}"></th:block>
 <body>
-<header>
-<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
-</header>
+	<header>
+		<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+	</header>
 	<main class="container my-5">
-		<p>batatinha</p>
-	</main>
+		
+	
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Banco</th>
+				<th>Total</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="dto : ${dtos}" th:object="${dto}">
+				<td th:text="*{banco}"></td>
+				<td th:text="*{total}"></td>
+			</tr>
+		</tbody>
+	</table>
 
-
-
+</main>
 </body>
 </html>

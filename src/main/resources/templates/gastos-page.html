@@ -12,12 +12,37 @@
 				<a type="button" class="btn btn-dark w-100" th:href="@{/gastos/new}">Novo
 					Gasto</a>
 			</div>
+
+
+			<div class="col-sm-12 col-md-4">
+				<form th:action="@{/gastos}" method="get"
+					class="p-3 border rounded bg-light shadow-sm">
+					<div class="mb-3">
+						<label for="banco" class="form-label fw-bold">Filtrar por
+							Banco</label> <select id="banco" class="form-select" th:name="banco">
+
+
+					    <option value="" th:selected="${param.banco == null}">Todos</option>
+					
+							<option th:each="banco : ${bancos}" th:value="${banco}"
+								th:text="${banco}"
+								th:selected="${#strings.equals(param.banco,banco.name())}"></option>
+						</select>
+					</div>
+
+					<div class="d-grid gap-2">
+						<button type="submit" class="btn btn-dark">Filtrar</button>
+						<a class="btn btn-outline-secondary" th:href="@{/gastos}">Limpar</a>
+					</div>
+				</form>
+			</div>
+
 		</div>
 		<div class="my-5">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						
+
 						<th>Banco</th>
 						<th>Data de Ocorrência</th>
 						<th>Valor</th>
