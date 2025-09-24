@@ -3,5 +3,34 @@
 <th:block th:replace="~{fragments/head :: head(title='recebedores')}"></th:block>
 <body>
 
+	<header>
+		<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+	</header>
+
+	<main class="container">
+		<div class="row my-5">
+			<div class="col-sm-12 col-md-4">
+				<a type="button" class="btn btn-dark w-100"
+					th:href="@{/recebedores/new}">Novo Recebedor</a>
+			</div>
+		</div>
+
+		<div class="my-5">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th>Nome</th>
+						<th>Tipo</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="recebedor : ${recebedores}" th:object="${recebedor}">
+						<td th:text="*{nome}"></td>
+						<td th:text="*{tipoRecebedor}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
 </body>
 </html>

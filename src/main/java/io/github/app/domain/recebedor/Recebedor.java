@@ -48,6 +48,14 @@ public class Recebedor {
 		this.nome = nome;
 	}
 
+	public TipoRecebedor getTipoRecebedor() {
+		return tipoRecebedor;
+	}
+
+	public void setTipoRecebedor(TipoRecebedor tipoRecebedor) {
+		this.tipoRecebedor = tipoRecebedor;
+	}
+
 	@Override
 	public int hashCode() {
 		return Objects.hash(id, tipoRecebedor);

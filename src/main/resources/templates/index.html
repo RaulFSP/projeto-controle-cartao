@@ -6,61 +6,7 @@
 <th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
 </header>
 	<main class="container my-5">
-		<form th:action="@{/}" th:object="${gasto}" method="post">
-			<div class="mb-3">
-				<label for="banco" class="form-label">Banco</label>
-				<select
-					class="form-select" 
-					aria-label="Default select example" 
-					th:field="*{banco}">
-
-					<option 
-					th:each="banco : ${bancos}" 
-					th:value="${banco}"
-					th:text="${banco}"></option>
-				</select>
-			</div>
-			<div class="mb-3">
-				<label for="dataOcorrencia" class="form-label">Data	Ocorrência</label> 
-					<input 
-					type="date" 
-					class="form-control"
-					th:field="*{dataOcorrencia}">
-			</div>
-			<!-- 
-			<div class="mb-3">
-				<label for="valor" class="form-label">Recebedor</label> 
-				<input 
-				type="text" 
-				class="form-control" 
-				th:field="*{recebedor}">
-			</div>
-			 
-			<div class="mb-3">
-				<label for="tipoRecebedor" class="form-label">Tipo de Recebedor</label>
-				<select
-					class="form-select" 
-					aria-label="Default select example" 
-					th:field="*{tipoRecebedor}">
-
-					<option 
-					th:each="tipo : ${tipos}" 
-					th:value="${tipo}"
-					th:text="${tipo}"></option>
-				</select>
-			</div>
-			-->
-			<div class="mb-3">
-				<label for="valor" class="form-label">Valor</label> 
-				<input 
-				type="number" 
-				class="form-control" 
-				step="0.01"
-				th:field="*{valor}">
-			</div>
-			    <button type="submit" class="btn btn-primary mb-3">Adicionar Gasto</button>
-			
-		</form>
+		<p>batatinha</p>
 	</main>
 
 

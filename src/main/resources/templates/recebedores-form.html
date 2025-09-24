@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<th:block th:replace="~{fragments/head :: head(title='recebedores')}"></th:block>
+
+<body>
+<header>
+		<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+	</header>
+	
+	<main class="container">
+	
+		<div class="row my-5">
+			<div class="col-sm-12 col-md-4">
+				<a type="button" class="btn btn-dark w-100"
+					th:href="@{/recebedores}">Voltar</a>
+			</div>
+		</div>
+		
+		<form th:action="@{/recebedores/new}" method="post" th:object="${recebedor}">
+		
+		<div class="mb-3">
+				<label for="nome" class="form-label">Nome do recebedor</label> 
+					<input 
+					type="text" 
+					class="form-control"
+					th:field="*{nome}"
+					th:classappend="${#fields.hasErrors('nome')} ? 'is-invalid'"
+					>
+					<div th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"
+					class="invalid-feedback"></div>
+			</div>
+			
+			<div class="mb-3">
+				<label for="tipoRecebedor" class="form-label">Tipo de Recebedor</label>
+				<select
+					class="form-select" 
+					aria-label="Default select example" 
+					th:field="*{tipoRecebedor}">
+
+					<option 
+					th:each="tipo : ${tipos}" 
+					th:value="${tipo}"
+					th:text="${tipo}"></option>
+				</select>
+			</div>
+			<button type="submit" class="btn btn-primary">Criar Recebedor</button>
+		</form>
+	</main>
+</body>
+</html>

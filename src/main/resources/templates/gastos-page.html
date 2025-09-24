@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<th:block th:replace="~{fragments/head :: head(title='Gastos')}"></th:block>
+<body>
+	<header>
+		<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+	</header>
+	<main class="container">
+
+		<div class="row my-5">
+			<div class="col-sm-12 col-md-4">
+				<a type="button" class="btn btn-dark w-100" th:href="@{/gastos/new}">Novo
+					Gasto</a>
+			</div>
+		</div>
+		<div class="my-5">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						
+						<th>Banco</th>
+						<th>Data de Ocorrência</th>
+						<th>Valor</th>
+						<th>Recebedor</th>
+						<th>Tipo de Recebedor</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="gasto : ${gastos}" th:object="${gasto}">
+						<td th:text="*{banco}"></td>
+						<td th:text="*{dataOcorrencia}"></td>
+						<td th:text="*{valor}"></td>
+						<td th:text="*{recebedor.nome}"></td>
+						<td th:text="*{recebedor.tipoRecebedor}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</main>
+</body>
+</html>
