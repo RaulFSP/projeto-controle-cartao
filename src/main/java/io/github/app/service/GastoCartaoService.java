@@ -1,5 +1,7 @@
 package io.github.app.service;
 
+import java.time.LocalDate;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -27,24 +29,13 @@ public class GastoCartaoService {
 		cartaoRepository.save(gasto);
 	}
 
-	public List<GastoCartaoDtoRead> findAll(String banco) {
 
-		try {
-			var bancoEnum = Banco.valueOf(banco.toUpperCase());
-			
-			var dtos = cartaoRepository.findAll().parallelStream().filter(f -> f.getBanco().equals(bancoEnum))
-					.map(m -> cartaoMapper.toDtoRead(m)).toList();
-			return dtos;
-		} catch (IllegalArgumentException | NullPointerException e) {
-			var dtos = cartaoRepository.findAll().parallelStream().map(m -> cartaoMapper.toDtoRead(m)).toList();
-			return dtos;
-		}
-
-
-
+	public List<GastoCartaoDtoRead> findAll(Banco banco, LocalDate dataInicio,LocalDate dataFinal, String nomeRecebedor) {
+		return cartaoRepository.queryAll(banco, dataInicio, dataFinal,nomeRecebedor).parallelStream().map(m -> cartaoMapper.toDtoRead(m)).sorted(Comparator.comparing(GastoCartaoDtoRead::dataOcorrencia).reversed()).toList();
 	}
-
-	public List<BancoTotalDto> queryBancoTotal() {
-		return cartaoRepository.queryBancoTotal();
+	
+	
+	public List<BancoTotalDto> queryBancoTotal(Banco banco) {
+		return cartaoRepository.queryBancoTotal(banco);
 	}
 }

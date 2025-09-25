@@ -33,6 +33,7 @@
 					type="date" 
 					class="form-control"
 					th:field="*{dataOcorrencia}"
+					
 					th:classappend="${#fields.hasErrors('dataOcorrencia')} ? 'is-invalid'">
 					<div th:if="${#fields.hasErrors('dataOcorrencia')}" th:errors="*{dataOcorrencia}"
 					class="invalid-feedback"></div>

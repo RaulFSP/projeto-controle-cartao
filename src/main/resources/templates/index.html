@@ -6,23 +6,50 @@
 		<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
 	</header>
 	<main class="container my-5">
-		
-	
-	<table class="table table-striped border bg-light">
-		<thead>
-			<tr>
-				<th>Banco</th>
-				<th>Total</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="dto : ${dtos}" th:object="${dto}">
-				<td th:text="*{banco}"></td>
-				<td th:text="*{total}"></td>
-			</tr>
-		</tbody>
-	</table>
+		<div class="row my-5">
+			<div class="col-lg-3 mb-4">
 
-</main>
+
+				<h3 class="mb-3">Filtros</h3>
+				<form th:action="@{/}" method="get"
+					class="p-3 border rounded bg-light shadow-sm">
+					<div class="mb-3">
+						<label for="banco" class="form-label fw-bold">Banco</label> <select
+							id="banco" class="form-select" th:name="banco">
+							<option value="" th:selected="${param.banco == null}">Todos</option>
+							<option th:each="banco : ${bancos}" th:value="${banco}"
+								th:text="${banco}"
+								th:selected="${#strings.equals(param.banco,banco.name())}"></option>
+						</select>
+					</div>
+
+					<div class="d-grid gap-2">
+						<button type="submit" class="btn btn-dark">Filtrar</button>
+						<a class="btn btn-secondary" th:href="@{/}">Limpar Filtros</a>
+					</div>
+				</form>
+			</div>
+
+			<div class="col-lg-9">
+				<div class="table-responsive">
+					<table class="table table-striped table-bordered bg-light table-hover">
+						<thead class="table-dark">
+							<tr>
+								<th>Banco</th>
+								<th>Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="dto : ${dtos}" th:object="${dto}">
+								<td th:text="*{banco}"></td>
+								<td class="text-end" th:text="*{total}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+	</main>
 </body>
 </html>

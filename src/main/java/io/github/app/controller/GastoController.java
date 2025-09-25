@@ -17,7 +17,6 @@ import io.github.app.dto.GastoCartaoDto;
 import io.github.app.service.GastoCartaoService;
 import io.github.app.service.RecebedorService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 
 @Controller
 @RequestMapping(value = "/gastos")
@@ -38,12 +37,14 @@ public class GastoController {
 	}
 
 	@GetMapping
-	public ModelAndView index(@RequestParam(name="banco", required=false) String banco, 
+	public ModelAndView index(@RequestParam(name="banco", required=false) Banco banco, 
 			@RequestParam(name="data_inicio",required = false) LocalDate dataInicio,
-			@RequestParam(name="data-final",required=false) LocalDate dataFinal) {
+			@RequestParam(name="data_final",required=false) LocalDate dataFinal,
+			@RequestParam(name="nome_recebedor", required=false) String nomeRecebedor
+			) {
 		var mv = new ModelAndView("gastos-page");
-		System.out.println(dataInicio);
-		mv.addObject("gastos", cartaoService.findAll(banco));
+		
+		mv.addObject("gastos", cartaoService.findAll(banco,dataInicio,dataFinal,nomeRecebedor));
 		return mv;
 	}
 
@@ -55,7 +56,8 @@ public class GastoController {
 	}
 
 	@PostMapping(value = "/new")
-	public ModelAndView createGastos(@Valid @ModelAttribute(name = "gasto") GastoCartaoDto gasto,
+	public ModelAndView createGastos(
+			@Valid @ModelAttribute(name = "gasto") GastoCartaoDto gasto,
 			BindingResult result) {
 
 		if (result.hasErrors()) {

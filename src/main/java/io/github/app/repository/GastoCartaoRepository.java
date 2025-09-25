@@ -13,15 +13,20 @@ import io.github.app.dto.BancoTotalDto;
 
 public interface GastoCartaoRepository extends JpaRepository<GastoCartao, Long> {
 
-	@Query(value = "select new io.github.app.dto.BancoTotalDto( g.banco, sum(g.valor)) from GastoCartao g group by g.banco")
-	List<BancoTotalDto> queryBancoTotal();
+	@Query(value = "select new io.github.app.dto.BancoTotalDto( g.banco, sum(g.valor)) from GastoCartao g "
+			+ "where (:banco is null  or g.banco=:banco)"
+			+ "group by g.banco"
+			)
+	List<BancoTotalDto> queryBancoTotal(@Param("banco") Banco banco);
 	
 	@Query("select g from GastoCartao g "
 			+ "where (:banco is null or g.banco = :banco)"
-			+ "and (:dataInit is null or :dataFinal is null or g.dataOcorrencia between :dataInit and :dataFinal)")
+			+ "and (:dataInicio is null or :dataFinal is null or g.dataOcorrencia between :dataInicio and :dataFinal)"
+			+ "and (:nomeRecebedor is null or g.recebedor.nome =:nomeRecebedor)")
 	List<GastoCartao> queryAll(
 			@Param("banco") Banco banco,
-			@Param("dataInit") LocalDate dataInit,
-			@Param("dataFinal") LocalDate dataFinal
+			@Param("dataInicio") LocalDate dataInicio,
+			@Param("dataFinal") LocalDate dataFinal,
+			@Param("nomeRecebedor") String nomeRecebedor
 			);
 }
