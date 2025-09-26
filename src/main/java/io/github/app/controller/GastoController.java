@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import io.github.app.domain.gasto.Banco;
+import io.github.app.domain.recebedor.TipoRecebedor;
 import io.github.app.dto.GastoCartaoDto;
 import io.github.app.service.GastoCartaoService;
 import io.github.app.service.RecebedorService;
@@ -40,11 +41,12 @@ public class GastoController {
 	public ModelAndView index(@RequestParam(name="banco", required=false) Banco banco, 
 			@RequestParam(name="data_inicio",required = false) LocalDate dataInicio,
 			@RequestParam(name="data_final",required=false) LocalDate dataFinal,
-			@RequestParam(name="nome_recebedor", required=false) String nomeRecebedor
+			@RequestParam(name="nome_recebedor", required=false) String nomeRecebedor,
+			@RequestParam(name="tipo_recebedor",required =false) TipoRecebedor tipoRecebedor
 			) {
 		var mv = new ModelAndView("gastos-page");
 		
-		mv.addObject("gastos", cartaoService.findAll(banco,dataInicio,dataFinal,nomeRecebedor));
+		mv.addObject("gastos", cartaoService.findAll(banco,dataInicio,dataFinal,nomeRecebedor,tipoRecebedor));
 		return mv;
 	}
 

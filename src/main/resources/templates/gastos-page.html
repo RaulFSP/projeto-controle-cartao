@@ -15,6 +15,7 @@
 				<h3 class="mb-3">Filtros</h3>
 				<form th:action="@{/gastos}" method="get"
 					class="p-3 border rounded bg-light shadow-sm">
+					
 					<div class="mb-3">
 						<label for="banco" class="form-label fw-bold">Banco</label> <select
 							id="banco" class="form-select" th:name="banco">
@@ -35,7 +36,7 @@
 							th:value="${param.data_final}">
 					</div>
 					<div class="mb-3">
-						<label for="tipo_recebedor" class="form-label fw-bold">
+						<label for="nome_recebedor" class="form-label fw-bold">
 							Nome de Recebedor</label>
 							 <select
 							id="nome_recebedor" class="form-select" th:name="nome_recebedor">
@@ -43,6 +44,17 @@
 							<option th:each="recebedor : ${recebedores}" th:value="${recebedor.nome}"
 								th:text="${recebedor.nome}"
 								th:selected="${#strings.equals(param.nome_recebedor,recebedor.nome)}"></option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="tipo_recebedor" class="form-label fw-bold">
+							Tipo de Recebedor</label>
+							 <select
+							id="tipo_recebedor" class="form-select" th:name="tipo_recebedor">
+							<option value="" th:selected="${param.tipo_recebedor == null}">Todos</option>
+							<option th:each="recebedor : ${recebedores}" th:value="${recebedor.tipoRecebedor}"
+								th:text="${recebedor.tipoRecebedor}"
+								th:selected="${#strings.equals(param.tipo_recebedor,recebedor.tipoRecebedor)}"></option>
 						</select>
 					</div>
 					<div class="d-grid gap-2">
@@ -56,7 +68,7 @@
 			<div class="col-lg-9">
 				<div class="table-responsive">
 					<table
-						class="table table-striped table-bordered bg-light table-hover">
+						class="table table-bordered bg-light table-hover">
 						<thead class="table-dark">
 							<tr>
 								<th>Banco</th>

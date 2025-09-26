@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import io.github.app.domain.gasto.Banco;
-import io.github.app.dto.GastoCartaoDto;
 import io.github.app.service.GastoCartaoService;
 
 @Controller

@@ -8,28 +8,68 @@
 	</header>
 
 	<main class="container">
-		<div class="row my-5">
-			<div class="col-sm-12 col-md-4">
-				<a type="button" class="btn btn-dark w-100"
-					th:href="@{/recebedores/new}">Novo Recebedor</a>
-			</div>
-		</div>
 
-		<div class="my-5">
-			<table class="table table-striped border bg-light table-hover">
-				<thead class="table-dark">
-					<tr >
-						<th>Nome</th>
-						<th>Tipo</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="recebedor : ${recebedores}" th:object="${recebedor}">
-						<td th:text="*{nome}"></td>
-						<td th:text="*{tipoRecebedor}"></td>
-					</tr>
-				</tbody>
-			</table>
+		<div class="row my-5">
+			<div class="col-lg-3 mb-4">
+				<a type="button" class="btn btn-dark w-100 mb-4"
+					th:href="@{/recebedores/new}">Novo Recebedor</a>
+
+				<h3 class="mb-3">Filtros</h3>
+				<form th:action="@{/recebedores}" method="get"
+					class="p-3 border rounded bg-light shadow-sm">
+					
+					
+					
+					<div class="mb-3">
+						<label for="nome_recebedor" class="form-label fw-bold">
+							Nome de Recebedor</label>
+							 <select
+							id="nome_recebedor" class="form-select" th:name="nome_recebedor">
+							<option value="" th:selected="${param.nome_recebedor == null}">Todos</option>
+							<option th:each="recebedor : ${recebedores}" th:value="${recebedor.nome}"
+								th:text="${recebedor.nome}"
+								th:selected="${#strings.equals(param.nome_recebedor,recebedor.nome)}"></option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="tipo_recebedor" class="form-label fw-bold">
+							Tipo de Recebedor</label>
+							 <select
+							id="tipo_recebedor" class="form-select" th:name="tipo_recebedor">
+							<option value="" th:selected="${param.tipo_recebedor == null}">Todos</option>
+							<option th:each="recebedor : ${recebedores}" th:value="${recebedor.tipoRecebedor}"
+								th:text="${recebedor.tipoRecebedor}"
+								th:selected="${#strings.equals(param.tipo_recebedor,recebedor.tipoRecebedor)}"></option>
+						</select>
+					</div>
+					<div class="d-grid gap-2">
+						<button type="submit" class="btn btn-dark">Filtrar</button>
+						<a class="btn btn-secondary" th:href="@{/gastos}">Limpar
+							Filtros</a>
+					</div>
+				</form>
+			</div>
+
+
+			<div class="col-lg-9">
+				<div class="table-responsive">
+					<table
+						class="table table-bordered bg-light table-hover">
+						<thead class="table-dark">
+							<tr>
+								<th>Nome</th>
+								<th>Tipo</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="recebedor : ${recebedores}" th:object="${recebedor}">
+								<td th:text="*{nome}"></td>
+								<td th:text="*{tipoRecebedor}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
 		</div>
 	</main>
 </body>

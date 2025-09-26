@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import io.github.app.domain.recebedor.Recebedor;
+import io.github.app.domain.recebedor.TipoRecebedor;
 import io.github.app.dto.RecebedorDto;
 import io.github.app.mapper.RecebedorMapper;
 import io.github.app.repository.RecebedorRepository;
@@ -20,9 +21,12 @@ public class RecebedorService {
 		this.recebedorRepository = recebedorRepository;
 		this.recebedorMapper = recebedorMapper;
 	}
-
 	public List<RecebedorDto> findAll(){
-		return recebedorRepository.findAll().parallelStream().map(m-> recebedorMapper.toDtoRead(m)).toList();
+		return recebedorRepository.queryAll(nome,tipoRecebedor);
+	}
+	
+	public List<RecebedorDto> findAll(String nome, TipoRecebedor tipoRecebedor){
+		return recebedorRepository.queryAll(nome,tipoRecebedor);
 	}
 	
 	public void createRecebedor(RecebedorDto dto) {

@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import io.github.app.domain.gasto.Banco;
+import io.github.app.domain.recebedor.TipoRecebedor;
 import io.github.app.dto.BancoTotalDto;
 import io.github.app.dto.GastoCartaoDto;
 import io.github.app.dto.GastoCartaoDtoRead;
@@ -30,8 +31,8 @@ public class GastoCartaoService {
 	}
 
 
-	public List<GastoCartaoDtoRead> findAll(Banco banco, LocalDate dataInicio,LocalDate dataFinal, String nomeRecebedor) {
-		return cartaoRepository.queryAll(banco, dataInicio, dataFinal,nomeRecebedor).parallelStream().map(m -> cartaoMapper.toDtoRead(m)).sorted(Comparator.comparing(GastoCartaoDtoRead::dataOcorrencia).reversed()).toList();
+	public List<GastoCartaoDtoRead> findAll(Banco banco, LocalDate dataInicio,LocalDate dataFinal, String nomeRecebedor, TipoRecebedor tipoRecebedor) {
+		return cartaoRepository.queryAll(banco, dataInicio, dataFinal,nomeRecebedor,tipoRecebedor).parallelStream().map(m -> cartaoMapper.toDtoRead(m)).sorted(Comparator.comparing(GastoCartaoDtoRead::dataOcorrencia).reversed()).toList();
 	}
 	
 	
