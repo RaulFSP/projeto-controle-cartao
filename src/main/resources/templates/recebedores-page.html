@@ -37,14 +37,16 @@
 							 <select
 							id="tipo_recebedor" class="form-select" th:name="tipo_recebedor">
 							<option value="" th:selected="${param.tipo_recebedor == null}">Todos</option>
-							<option th:each="recebedor : ${recebedores}" th:value="${recebedor.tipoRecebedor}"
-								th:text="${recebedor.tipoRecebedor}"
-								th:selected="${#strings.equals(param.tipo_recebedor,recebedor.tipoRecebedor)}"></option>
+							<option
+								th:each="tipo : ${tipoRecebedores}" 
+								th:value="${tipo}"
+								th:text="${tipo}"
+								th:selected="${#strings.equals(tipo,tipoRecebedorSelecionado)}"></option>
 						</select>
 					</div>
 					<div class="d-grid gap-2">
 						<button type="submit" class="btn btn-dark">Filtrar</button>
-						<a class="btn btn-secondary" th:href="@{/gastos}">Limpar
+						<a class="btn btn-secondary" th:href="@{/recebedores}">Limpar
 							Filtros</a>
 					</div>
 				</form>
@@ -64,7 +66,7 @@
 						<tbody>
 							<tr th:each="recebedor : ${recebedores}" th:object="${recebedor}">
 								<td th:text="*{nome}"></td>
-								<td th:text="*{tipoRecebedor}"></td>
+								<td th:text="*{tipoRecebedor}" ></td>
 							</tr>
 						</tbody>
 					</table>

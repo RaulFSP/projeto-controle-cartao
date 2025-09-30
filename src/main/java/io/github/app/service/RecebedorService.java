@@ -15,20 +15,20 @@ public class RecebedorService {
 
 	private final RecebedorRepository recebedorRepository;
 	private final RecebedorMapper recebedorMapper;
-	private RecebedorService(
-			RecebedorRepository recebedorRepository,
-			RecebedorMapper recebedorMapper) {
+
+	private RecebedorService(RecebedorRepository recebedorRepository, RecebedorMapper recebedorMapper) {
 		this.recebedorRepository = recebedorRepository;
 		this.recebedorMapper = recebedorMapper;
 	}
-	public List<RecebedorDto> findAll(){
-		return recebedorRepository.queryAll(nome,tipoRecebedor);
+
+	public List<RecebedorDto> findAll(String nome, TipoRecebedor tipoRecebedor) {
+		return recebedorRepository.queryAll(nome, tipoRecebedor);
 	}
-	
-	public List<RecebedorDto> findAll(String nome, TipoRecebedor tipoRecebedor){
-		return recebedorRepository.queryAll(nome,tipoRecebedor);
+
+	public List<RecebedorDto> findAll() {
+		return recebedorRepository.queryAll();
 	}
-	
+
 	public void createRecebedor(RecebedorDto dto) {
 		Recebedor recebedor = recebedorMapper.fromDto(dto);
 		recebedorRepository.save(recebedor);

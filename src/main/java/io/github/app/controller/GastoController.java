@@ -5,8 +5,10 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,7 +36,7 @@ public class GastoController {
 	@ModelAttribute
 	public void addAttributes(Model model) {
 		model.addAttribute("bancos", Banco.values());
-		model.addAttribute("recebedores", recebedorService.findAll());
+		model.addAttribute("recebedores", recebedorService.findAll(null,null));
 	}
 
 	@GetMapping
@@ -56,6 +58,20 @@ public class GastoController {
 		mv.addObject("gasto", gasto);
 		return mv;
 	}
+	
+	@GetMapping(value="/{id}")
+	public ModelAndView showGastoById(@PathVariable Long id) {
+		
+		var mv = new ModelAndView("gastos-show");
+		return mv;
+	}
+	
+	@DeleteMapping(value="/{id}")
+	public ModelAndView destroyGasto(@PathVariable Long id) {
+		
+		return new ModelAndView("redirect:/gastos");
+	}
+	
 
 	@PostMapping(value = "/new")
 	public ModelAndView createGastos(

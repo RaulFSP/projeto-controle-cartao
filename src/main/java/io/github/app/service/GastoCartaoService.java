@@ -25,17 +25,22 @@ public class GastoCartaoService {
 		this.cartaoMapper = cartaoMapper;
 	}
 
+	public void deleteGastoById(Long id) {
+		cartaoRepository.deleteById(id);
+	}
+
 	public void saveGastoCartao(GastoCartaoDto dto) {
 		var gasto = cartaoMapper.fromDto(dto);
 		cartaoRepository.save(gasto);
 	}
 
-
-	public List<GastoCartaoDtoRead> findAll(Banco banco, LocalDate dataInicio,LocalDate dataFinal, String nomeRecebedor, TipoRecebedor tipoRecebedor) {
-		return cartaoRepository.queryAll(banco, dataInicio, dataFinal,nomeRecebedor,tipoRecebedor).parallelStream().map(m -> cartaoMapper.toDtoRead(m)).sorted(Comparator.comparing(GastoCartaoDtoRead::dataOcorrencia).reversed()).toList();
+	public List<GastoCartaoDtoRead> findAll(Banco banco, LocalDate dataInicio, LocalDate dataFinal,
+			String nomeRecebedor, TipoRecebedor tipoRecebedor) {
+		return cartaoRepository.queryAll(banco, dataInicio, dataFinal, nomeRecebedor, tipoRecebedor).parallelStream()
+				.map(m -> cartaoMapper.toDtoRead(m))
+				.sorted(Comparator.comparing(GastoCartaoDtoRead::dataOcorrencia).reversed()).toList();
 	}
-	
-	
+
 	public List<BancoTotalDto> queryBancoTotal(Banco banco) {
 		return cartaoRepository.queryBancoTotal(banco);
 	}

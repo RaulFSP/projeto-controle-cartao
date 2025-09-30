@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<th:block th:replace="~{fragments/head :: head(title='Gastos Show')}"></th:block>
+<body>
+	<header>
+		<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
+	</header>
+	<main>
+		<div class="container mt-5">
+			<h2>Detalhes do Gasto</h2>
+			<div class="card">
+				<div class="card-header">
+					<strong>Product Name</strong>
+				</div>
+				<div class="card-body">
+					<p>
+						<strong>ID:</strong> 1
+					</p>
+					<p>
+						<strong>Description:</strong> Sample description of the product.
+					</p>
+					<p>
+						<strong>Price:</strong> $99.99
+					</p>
+					<p>
+						<strong>Category:</strong> Electronics
+					</p>
+				</div>
+				<div class="card-footer">
+					<a href="/products" class="btn btn-secondary">Back to List</a> <a
+						href="/products/edit/1" class="btn btn-warning">Edit</a>
+					<button type="button" class="btn btn-danger" data-toggle="modal"
+						data-target="#deleteModal">Delete</button>
+				</div>
+			</div>
+		</div>
+	</main>
+</body>
+</html>
