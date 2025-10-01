@@ -79,16 +79,18 @@
 						</thead>
 						<tbody>
 							<tr th:each="gasto : ${gastos}" th:object="${gasto}">
-								<td th:text="*{recebedor.nome}"></td>
-								<td th:text="*{banco}"></td>
+								<td th:text="*{recebedor.nome}" class="align-middle"></td>
+								<td th:text="*{banco}" class="align-middle"></td>
 
 
 								<td
 									th:text="${#temporals.format(gasto.dataOcorrencia, 'dd/MM/yyyy')}"
-									class="text-end"></td>
-								<td class="text-end" th:text="*{valor}"></td>
-								<td th:text="*{recebedor.tipoRecebedor}"></td>
-								<td><a th:href="@{/gastos/{id}(id=${gasto.id})}" class="btn btn-secondary">Vizualizar</a></td>
+									class="text-end align-middle"></td>
+								<td class="text-end align-middle" th:text="*{valor}"></td>
+								<td th:text="*{recebedor.tipoRecebedor}" class="align-middle"></td>
+								<td class="align-middle text-center">
+								<a th:href="@{/gastos/{id}(id=${gasto.id})}" ><i class="bi bi-info-square"></i></a>	
+								</td>
 								
 							</tr>
 						</tbody>

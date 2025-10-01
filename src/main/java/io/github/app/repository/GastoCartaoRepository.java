@@ -2,6 +2,7 @@ package io.github.app.repository;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +12,7 @@ import io.github.app.domain.gasto.Banco;
 import io.github.app.domain.gasto.GastoCartao;
 import io.github.app.domain.recebedor.TipoRecebedor;
 import io.github.app.dto.BancoTotalDto;
+import io.github.app.dto.query.GastoShowPageDto;
 
 public interface GastoCartaoRepository extends JpaRepository<GastoCartao, Long> {
 
@@ -34,5 +36,6 @@ public interface GastoCartaoRepository extends JpaRepository<GastoCartao, Long> 
 		    @Param("tipoRecebedor") TipoRecebedor tipoRecebedor
 		);
 
-	
+	@Query(value="select g.id,g.dataOcorrencia, r.nome, g.valor, g.banco,r.tipoRecebedor from GastoCartao g inner join g.recebedor r where g.id = :id")
+	Optional<GastoShowPageDto> queryGastoShowPage(@Param("id")Long id);
 }

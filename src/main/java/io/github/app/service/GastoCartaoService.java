@@ -11,8 +11,10 @@ import io.github.app.domain.recebedor.TipoRecebedor;
 import io.github.app.dto.BancoTotalDto;
 import io.github.app.dto.GastoCartaoDto;
 import io.github.app.dto.GastoCartaoDtoRead;
+import io.github.app.dto.query.GastoShowPageDto;
 import io.github.app.mapper.GastoCartaoMapper;
 import io.github.app.repository.GastoCartaoRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class GastoCartaoService {
@@ -43,5 +45,14 @@ public class GastoCartaoService {
 
 	public List<BancoTotalDto> queryBancoTotal(Banco banco) {
 		return cartaoRepository.queryBancoTotal(banco);
+	}
+	
+	public GastoShowPageDto queryById(Long id) {
+		return cartaoRepository.queryGastoShowPage(id).orElseThrow(()-> new EntityNotFoundException("Gasto não encontrado"));
+	}
+	public GastoCartaoDtoRead findById(Long id) {
+		var gasto = cartaoRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Gasto não encontrado"));
+		return cartaoMapper.toDtoRead(gasto);
+		
 	}
 }

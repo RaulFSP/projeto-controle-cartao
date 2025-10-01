@@ -11,8 +11,7 @@ import io.github.app.repository.GastoCartaoRepository;
 @SpringBootTest
 class GastoCartaoServiceTest {
 
-	@Autowired
-	private GastoCartaoRepository cartaoRepository;
+	
 	@Autowired
 	private GastoCartaoService cartaoService;
 	

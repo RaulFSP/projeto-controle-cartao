@@ -36,46 +36,44 @@ public class GastoController {
 	@ModelAttribute
 	public void addAttributes(Model model) {
 		model.addAttribute("bancos", Banco.values());
-		model.addAttribute("recebedores", recebedorService.findAll(null,null));
+		model.addAttribute("recebedores", recebedorService.findAll(null, null));
 	}
 
 	@GetMapping
-	public ModelAndView index(@RequestParam(name="banco", required=false) Banco banco, 
-			@RequestParam(name="data_inicio",required = false) LocalDate dataInicio,
-			@RequestParam(name="data_final",required=false) LocalDate dataFinal,
-			@RequestParam(name="nome_recebedor", required=false) String nomeRecebedor,
-			@RequestParam(name="tipo_recebedor",required =false) TipoRecebedor tipoRecebedor
-			) {
-		var mv = new ModelAndView("gastos-page");
-		
-		mv.addObject("gastos", cartaoService.findAll(banco,dataInicio,dataFinal,nomeRecebedor,tipoRecebedor));
-		return mv;
+	public ModelAndView index(@RequestParam(name = "banco", required = false) Banco banco,
+			@RequestParam(name = "data_inicio", required = false) LocalDate dataInicio,
+			@RequestParam(name = "data_final", required = false) LocalDate dataFinal,
+			@RequestParam(name = "nome_recebedor", required = false) String nomeRecebedor,
+			@RequestParam(name = "tipo_recebedor", required = false) TipoRecebedor tipoRecebedor) {
+		return new ModelAndView("gastos-page")
+				.addObject("gastos",
+				cartaoService.findAll(banco, dataInicio, dataFinal, nomeRecebedor, tipoRecebedor));
 	}
 
 	@GetMapping(value = "/new")
 	public ModelAndView showGastoForm(GastoCartaoDto gasto) {
-		var mv = new ModelAndView("gastos-form");
-		mv.addObject("gasto", gasto);
-		return mv;
+		return new ModelAndView("gastos-form").addObject("gasto", gasto);
 	}
-	
-	@GetMapping(value="/{id}")
+
+	@GetMapping(value = "/{id}")
 	public ModelAndView showGastoById(@PathVariable Long id) {
-		
-		var mv = new ModelAndView("gastos-show");
-		return mv;
+		return new ModelAndView("gastos-show").addObject("gasto", cartaoService.queryById(id));
+	}
+
+	@GetMapping(value="/{id}/edit")
+	public ModelAndView showGastoEdit(@PathVariable Long id) {
+		var dto = cartaoService.findById(id);
+		return new ModelAndView("gastos-form").addObject("gasto",dto);
 	}
 	
-	@DeleteMapping(value="/{id}")
+	@DeleteMapping(value = "/{id}")
 	public ModelAndView destroyGasto(@PathVariable Long id) {
-		
+		cartaoService.deleteGastoById(id);
 		return new ModelAndView("redirect:/gastos");
 	}
-	
 
 	@PostMapping(value = "/new")
-	public ModelAndView createGastos(
-			@Valid @ModelAttribute(name = "gasto") GastoCartaoDto gasto,
+	public ModelAndView createGastos(@Valid @ModelAttribute(name = "gasto") GastoCartaoDto gasto,
 			BindingResult result) {
 
 		if (result.hasErrors()) {

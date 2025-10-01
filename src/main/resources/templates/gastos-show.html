@@ -5,35 +5,67 @@
 	<header>
 		<th:block th:replace="~{fragments/navbar :: navbar}"></th:block>
 	</header>
-	<main>
-		<div class="container mt-5">
+	<main class="container">
+		<div class="row my-5">
+			<div class="col-sm-12 col-md-4">
+				<a type="button" class="btn btn-dark w-100" th:href="@{/gastos}">Voltar</a>
+			</div>
+		</div>
+		<div class="container my-5" th:object="${gasto}">
 			<h2>Detalhes do Gasto</h2>
 			<div class="card">
 				<div class="card-header">
-					<strong>Product Name</strong>
+					<strong th:text="*{nomeRecebedor}"></strong>
 				</div>
 				<div class="card-body">
 					<p>
-						<strong>ID:</strong> 1
+						<strong>Data de Ocorrência:</strong> <i
+							th:text="${#temporals.format(gasto.dataOcorrencia, 'dd/MM/yyyy')}"></i>
 					</p>
 					<p>
-						<strong>Description:</strong> Sample description of the product.
+						<strong>Valor:</strong> <i th:text="*{valor}"></i>
 					</p>
 					<p>
-						<strong>Price:</strong> $99.99
+						<strong>Banco:</strong> <i th:text="*{banco}"></i>
 					</p>
 					<p>
-						<strong>Category:</strong> Electronics
+						<strong>Tipo de Recebedor:</strong> <i th:text="*{tipoRecebedor}">
+						</i>
 					</p>
 				</div>
 				<div class="card-footer">
-					<a href="/products" class="btn btn-secondary">Back to List</a> <a
-						href="/products/edit/1" class="btn btn-warning">Edit</a>
-					<button type="button" class="btn btn-danger" data-toggle="modal"
-						data-target="#deleteModal">Delete</button>
+				
+					<a th:href="@{/gastos/{id}/edit (id=${gasto.id})}" class="btn btn-warning"><i class="bi bi-pencil-square"></i>Editar</a>
+					<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+						data-bs-target="#deleteModal"><i class="bi bi-trash"></i>Deletar</button>
 				</div>
 			</div>
 		</div>
 	</main>
+	<!-- Modal -->
+	<div class="modal fade" id="deleteModal" tabindex="-1"
+		aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h1 class="modal-title fs-5" id="exampleModalLabel">Confirmar</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal"
+						aria-label="Close"></button>
+				</div>
+				<div class="modal-body">Deseja deletar ?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary"
+						data-bs-dismiss="modal">Cancelar</button>
+					<form 
+					th:action="@{/gastos/{id} (id=${gasto.id})}"
+					method="post"
+					>
+					    <input type="hidden" name="_method" value="delete"/>
+						<button type="submit" class="btn btn-danger">Confirmar</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>
