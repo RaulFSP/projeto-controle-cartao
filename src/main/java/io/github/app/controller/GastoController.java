@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -62,8 +63,7 @@ public class GastoController {
 
 	@GetMapping(value="/{id}/edit")
 	public ModelAndView showGastoEdit(@PathVariable Long id) {
-		var dto = cartaoService.findById(id);
-		return new ModelAndView("gastos-form").addObject("gasto",dto);
+		return new ModelAndView("gastos-form").addObject("gasto",cartaoService.queryByIdDto(id));
 	}
 	
 	@DeleteMapping(value = "/{id}")
@@ -81,5 +81,10 @@ public class GastoController {
 		}
 		cartaoService.saveGastoCartao(gasto);
 		return new ModelAndView("redirect:/gastos/new");
+	}
+	//TODO finalizar método de update do controller
+	@PutMapping(value="/{id}")
+	public ModelAndView updateGastos(@PathVariable Long id, @ModelAttribute("gasto")GastoCartaoDto gasto ) {
+		return null;
 	}
 }

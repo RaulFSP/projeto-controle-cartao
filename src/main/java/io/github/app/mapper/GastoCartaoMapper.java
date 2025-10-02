@@ -28,14 +28,19 @@ public class GastoCartaoMapper {
 				.banco(dto.banco())
 				.dataOcorrencia(dto.dataOcorrencia())
 				.id(null)
-				.recebedor(recebedorRepository.findById(dto.recebedorId()).orElseThrow(() -> new EntityNotFoundException("Recebedor não encontrado")))
+				.recebedor(recebedorRepository.findById(dto.recebedor()).orElseThrow(() -> new EntityNotFoundException("Recebedor não encontrado")))
 				.valor(dto.valor())
 				.build();
 	}
 	
-	public GastoCartaoDtoRead toDtoRead(GastoCartao gastos) {
-		RecebedorDto recebedorDto = recebedorMapper.toDtoRead(gastos.getRecebedor()); 
-		return new GastoCartaoDtoRead(gastos.getId(), gastos.getBanco(), gastos.getDataOcorrencia(), gastos.getValor(), recebedorDto);
+	public GastoCartaoDtoRead toDtoRead(GastoCartao gasto) {
+		RecebedorDto recebedorDto = recebedorMapper.toDtoRead(gasto.getRecebedor()); 
+		return new GastoCartaoDtoRead(gasto.getId(), gasto.getBanco(), gasto.getDataOcorrencia(), gasto.getValor(), recebedorDto);
 	}
 
+	public GastoCartaoDto toDto(GastoCartao gasto) {
+		
+		return new GastoCartaoDto(gasto.getId(), gasto.getBanco(), gasto.getDataOcorrencia(), gasto.getValor(), gasto.getRecebedor().getId());
+	}
+	//TODO fazer método mapper de atualizição que recebe tanto dto quanto o id 
 }

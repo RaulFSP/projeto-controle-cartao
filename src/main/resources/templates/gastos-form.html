@@ -14,7 +14,11 @@
 			</div>
 		</div>
 		
-		<form th:action="@{/gastos/new}" th:object="${gasto}" method="post">
+		<form 
+		th:action="${gasto.id}!= null ?   @{/gastos/{id}(id=${gasto.id})}: @{/gastos/new}" 
+		th:object="${gasto}" 
+		method="post">
+		<input type="hidden" name="_method" value="put" th:if="${gasto.id} != null"/>
 			<div class="mb-3">
 				<label for="banco" class="form-label">Banco</label> 
 				<select
@@ -52,21 +56,23 @@
 					class="invalid-feedback"></div>
 			</div>
 			<div class="mb-3">
-				<label for="recebedorId" class="form-label">Tipo de
+				<label for="recebedor" class="form-label">Tipo de
 					Recebedor</label> 
 					<select 
 					class="form-select"
-					th:field="*{recebedorId}"
-					th:classappend="${#fields.hasErrors('recebedorId')} ? 'is-invalid'"
+					th:field="*{recebedor}"
 					>
 					
-					<option th:each="recebedor : ${recebedores}"
-						th:value="${recebedor.id}" th:text="${recebedor.nome}"></option>
+					<option
+						 
+						th:each="recebedor : ${recebedores}"
+						th:value="${recebedor.id}" 
+						th:text="${recebedor.nome}"
+					
+						></option>
 				</select>
-				<div th:if="${#fields.hasErrors('recebedorId')}" th:errors="*{recebedorId}"
-					class="invalid-feedback"></div>
 			</div>
-			<button type="submit" class="btn btn-primary mb-3">Adicionar
+			<button type="submit" th:class="${gasto.id} != null ? 'btn btn-primary' : 'btn btn-success'" th:text="${gasto.id} != null ? 'Alterar Gasto' : 'Adicionar Gasto'">Adicionar
 				Gasto</button>
 
 		</form>

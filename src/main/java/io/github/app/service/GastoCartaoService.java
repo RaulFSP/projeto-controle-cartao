@@ -50,9 +50,14 @@ public class GastoCartaoService {
 	public GastoShowPageDto queryById(Long id) {
 		return cartaoRepository.queryGastoShowPage(id).orElseThrow(()-> new EntityNotFoundException("Gasto não encontrado"));
 	}
-	public GastoCartaoDtoRead findById(Long id) {
+	public GastoCartaoDtoRead queryByIdDtoRead(Long id) {
 		var gasto = cartaoRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Gasto não encontrado"));
 		return cartaoMapper.toDtoRead(gasto);
+		
+	}
+	public GastoCartaoDto queryByIdDto(Long id) {
+		var gasto = cartaoRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Gasto não encontrado"));
+		return cartaoMapper.toDto(gasto);
 		
 	}
 }
