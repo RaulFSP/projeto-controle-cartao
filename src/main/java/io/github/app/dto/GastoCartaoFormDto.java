@@ -8,18 +8,17 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import jakarta.validation.constraints.PositiveOrZero;
 
-public record GastoCartaoDtoRead(
+public record GastoCartaoFormDto(
+		Long id, 
 		@NotNull
-		Long id,
-		@NotNull
-		Banco banco,
+		Banco banco, 
 		@NotNull
 		@PastOrPresent
-		LocalDate dataOcorrencia,
+		LocalDate dataOcorrencia, 
 		@NotNull
 		@PositiveOrZero
-		BigDecimal valor,
+		BigDecimal valor, 
 		@NotNull
-		RecebedorDto recebedor) {
+		Long recebedor) {
 
 }

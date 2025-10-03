@@ -1,4 +1,4 @@
-package io.github.app.dto;
+package io.github.app.dto.query;
 
 import java.math.BigDecimal;
 

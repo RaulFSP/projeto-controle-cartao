@@ -1,6 +1,8 @@
 package io.github.app.controller;
 
+import java.io.IOException;
 import java.time.LocalDate;
+
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,21 +19,27 @@ import org.springframework.web.servlet.ModelAndView;
 
 import io.github.app.domain.gasto.Banco;
 import io.github.app.domain.recebedor.TipoRecebedor;
-import io.github.app.dto.GastoCartaoDto;
+import io.github.app.dto.GastoCartaoFormDto;
 import io.github.app.service.GastoCartaoService;
+import io.github.app.service.PdfGenerator;
 import io.github.app.service.RecebedorService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/gastos")
 public class GastoController {
 
-	private final GastoCartaoService cartaoService;
+	private final GastoCartaoService gastoCartaoService;
 	private final RecebedorService recebedorService;
+	private final PdfGenerator pdfGenerator;
+	
 
-	private GastoController(GastoCartaoService cartaoService, RecebedorService recebedorService) {
-		this.cartaoService = cartaoService;
+	public GastoController(GastoCartaoService gastoCartaoService, RecebedorService recebedorService,
+			PdfGenerator pdfGenerator) {
+		this.gastoCartaoService = gastoCartaoService;
 		this.recebedorService = recebedorService;
+		this.pdfGenerator = pdfGenerator;
 	}
 
 	@ModelAttribute
@@ -46,45 +54,63 @@ public class GastoController {
 			@RequestParam(name = "data_final", required = false) LocalDate dataFinal,
 			@RequestParam(name = "nome_recebedor", required = false) String nomeRecebedor,
 			@RequestParam(name = "tipo_recebedor", required = false) TipoRecebedor tipoRecebedor) {
-		return new ModelAndView("gastos-page")
-				.addObject("gastos",
-				cartaoService.findAll(banco, dataInicio, dataFinal, nomeRecebedor, tipoRecebedor));
+		return new ModelAndView("gastos-page").addObject("gastos",
+				gastoCartaoService.findAll(banco, dataInicio, dataFinal, nomeRecebedor, tipoRecebedor));
 	}
 
 	@GetMapping(value = "/new")
-	public ModelAndView showGastoForm(GastoCartaoDto gasto) {
+	public ModelAndView showGastoForm(GastoCartaoFormDto gasto) {
 		return new ModelAndView("gastos-form").addObject("gasto", gasto);
 	}
 
 	@GetMapping(value = "/{id}")
 	public ModelAndView showGastoById(@PathVariable Long id) {
-		return new ModelAndView("gastos-show").addObject("gasto", cartaoService.queryById(id));
+		return new ModelAndView("gastos-show").addObject("gasto", gastoCartaoService.queryById(id));
 	}
 
-	@GetMapping(value="/{id}/edit")
+	@GetMapping(value = "/{id}/edit")
 	public ModelAndView showGastoEdit(@PathVariable Long id) {
-		return new ModelAndView("gastos-form").addObject("gasto",cartaoService.queryByIdDto(id));
+
+		return new ModelAndView("gastos-form").addObject("gasto", gastoCartaoService.queryByIdDto(id));
 	}
+
+	
+	//rotas de Crud
 	
 	@DeleteMapping(value = "/{id}")
 	public ModelAndView destroyGasto(@PathVariable Long id) {
-		cartaoService.deleteGastoById(id);
+		gastoCartaoService.deleteGastoById(id);
 		return new ModelAndView("redirect:/gastos");
 	}
 
 	@PostMapping(value = "/new")
-	public ModelAndView createGastos(@Valid @ModelAttribute(name = "gasto") GastoCartaoDto gasto,
+	public ModelAndView createGastos(@Valid @ModelAttribute(name = "gasto") GastoCartaoFormDto gasto,
 			BindingResult result) {
 
 		if (result.hasErrors()) {
 			return new ModelAndView("gastos-form").addObject("gasto", gasto);
 		}
-		cartaoService.saveGastoCartao(gasto);
+		gastoCartaoService.saveGastoCartao(gasto);
 		return new ModelAndView("redirect:/gastos/new");
 	}
-	//TODO finalizar método de update do controller
-	@PutMapping(value="/{id}")
-	public ModelAndView updateGastos(@PathVariable Long id, @ModelAttribute("gasto")GastoCartaoDto gasto ) {
-		return null;
+
+	@PutMapping(value = "/{id}")
+	public ModelAndView updateGastos(@PathVariable Long id, @Valid @ModelAttribute("gasto") GastoCartaoFormDto gasto,
+			BindingResult result) {
+		if (result.hasErrors()) {
+			return new ModelAndView("gastos-form").addObject("gasto", gasto);
+		}
+		gastoCartaoService.updateGastoCartao(gasto, id);
+
+		return new ModelAndView("redirect:/gastos/%d/edit".formatted(id));
+	}
+	
+	//Rotas de PDf
+	
+	@GetMapping(value="/pdf")
+	public void gerarPdf(HttpServletResponse resp) throws IOException {
+		resp.setContentType("application/pdf");
+		resp.setHeader("Content-Disposition", "inline; filename=gastos.pdf");
+		pdfGenerator.export(resp.getOutputStream());
 	}
 }

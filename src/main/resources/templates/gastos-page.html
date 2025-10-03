@@ -11,8 +11,15 @@
 			<div class="col-lg-3 mb-4">
 				<a type="button" class="btn btn-dark w-100 mb-4"
 					th:href="@{/gastos/new}">Novo Gasto</a>
-
+				<a type="button" class="btn btn-success w-100 mb-4"
+					th:href="@{/}">Exportar CSV</a>
+					
+				<a type="button" class="btn btn-warning w-100 mb-4"
+					th:href="@{/gastos/pdf}" target="_blank">Exportar PDF</a>
+					
 				<h3 class="mb-3">Filtros</h3>
+				
+				
 				<form th:action="@{/gastos}" method="get"
 					class="p-3 border rounded bg-light shadow-sm">
 

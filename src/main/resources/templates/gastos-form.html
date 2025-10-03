@@ -25,7 +25,9 @@
 					class="form-select" 
 					th:field="*{banco}"
 					th:classappend="${#fields.hasErrors('banco')} ? 'is-invalid'">
-					<option th:each="banco : ${bancos}" th:value="${banco}"
+					<option
+					 	th:each="banco : ${bancos}" 
+					 	th:value="${banco}"
 						th:text="${banco}"></option>
 				</select>
 				<div th:if="${#fields.hasErrors('banco')}" th:errors="*{banco}"
@@ -55,6 +57,7 @@
 					<div th:if="${#fields.hasErrors('valor')}" th:errors="*{valor}"
 					class="invalid-feedback"></div>
 			</div>
+			
 			<div class="mb-3">
 				<label for="recebedor" class="form-label">Tipo de
 					Recebedor</label> 
@@ -68,7 +71,7 @@
 						th:each="recebedor : ${recebedores}"
 						th:value="${recebedor.id}" 
 						th:text="${recebedor.nome}"
-					
+						th:selected="${#strings}"
 						></option>
 				</select>
 			</div>
